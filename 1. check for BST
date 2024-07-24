@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    // Function to check whether a Binary Tree is BST or not.
+    Node* prev=NULL;
+    bool flag=true;
+    void inorder(Node* root){
+        if(root==NULL) return;
+        inorder(root->left);
+        if(prev!=NULL){
+            if(root->data<=prev->data){
+                flag=false;
+                return;
+            }
+        }
+        prev=root;
+        inorder(root->right);
+    }
+    bool isBST(Node* root) {
+    inorder(root);
+    return flag;
+ 
+    }
+};
