@@ -1,0 +1,34 @@
+class Solution {
+  public:
+    Node* sortedArrayToBST(vector<int>& nums) {
+    if (nums.empty()) {
+        return NULL;
+    }
+
+    int n = nums.size();
+    int mid = n / 2;
+    Node* root = new Node(nums[mid]);
+    queue<pair<Node*, pair<int, int>>> q;
+    q.push({root, {0, mid - 1}});
+    q.push({root, {mid + 1, n - 1}});
+    while (!q.empty()) {
+        pair<Node*, pair<int, int>> curr = q.front();
+        q.pop();
+        Node* parent = curr.first;
+        int left = curr.second.first;
+        int right = curr.second.second;
+        if (left <= right) {
+            int mid = (left + right) / 2;
+            Node* child = new Node(nums[mid]);
+            if (nums[mid] < parent->data) {
+                parent->left = child;
+            } else {
+                parent->right = child;
+            }
+            q.push({child, {left, mid - 1}});
+            q.push({child, {mid + 1, right}});
+        }
+    }
+    return root;
+}
+};
